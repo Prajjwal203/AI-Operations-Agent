@@ -2,6 +2,7 @@
 from app.routes.invoices import router as invoice_router
 from app.routes.purchase_orders import router as po_router
 from app.routes.comparisons import router as comparison_router
+from app.routes.approvals import router as approval_router
 
 
 app = FastAPI(
@@ -29,3 +30,5 @@ app.include_router(invoice_router)
 app.include_router(po_router)
 
 app.include_router(comparison_router)
+
+app.include_router(approval_router) 
