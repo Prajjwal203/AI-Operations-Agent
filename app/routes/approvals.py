@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from app.models.approval import Approval
 
 from app.database import get_db
 from app.models.approval_schemas import (
@@ -47,3 +48,14 @@ def review_approval(
         )
     except ValueError as error:
         raise HTTPException(status_code=400, detail=str(error))
+
+
+@router.get("/", response_model=list[ApprovalResponse])
+def get_approval_history(db: Session = Depends(get_db)):
+    approvals = (
+        db.query(Approval)
+        .order_by(Approval.created_at.desc())
+        .all()
+    )
+
+    return approvals
